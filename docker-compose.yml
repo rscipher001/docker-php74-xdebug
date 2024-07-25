@@ -1,0 +1,24 @@
+services:
+  app:
+    # Required for the xdebug
+    extra_hosts:
+        host.docker.internal: host-gateway
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      - .:/var/www
+
+    ports:
+      - "8000:8000"
+
+    image: app
+    container_name: app
+    restart: unless-stopped
+    working_dir: /var/www
+
+    # Required in Linux. Without it a lot of things will be owned by root
+    # and cause permission denied issues.
+    user: "1000:1000"
